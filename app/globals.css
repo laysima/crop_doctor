@@ -33,6 +33,24 @@ body {
   color: var(--foreground);
 }
 
+/* Faint field grid behind the hero, fading out towards the bottom. */
+.hero-grid {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(to right, rgb(18 41 31 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(18 41 31 / 0.06) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, black 30%, transparent 95%);
+}
+
 :focus-visible {
   outline: 3px solid #7a9a1f;
   outline-offset: 2px;

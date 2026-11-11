@@ -140,21 +140,99 @@ function SectionHeading({ label, children, center = false, invert = false }: { l
   );
 }
 
+const HERO_POINTS = ["Any crop", "Photo or short video", "Works on low-end phones"];
+
+function Tile({
+  src,
+  alt,
+  sizes,
+  className,
+  imageClassName = "",
+  preload = false,
+  children,
+}: {
+  src: string;
+  alt: string;
+  sizes: string;
+  className: string;
+  imageClassName?: string;
+  preload?: boolean;
+  children?: ReactNode;
+}) {
+  return (
+    <div className={`relative overflow-hidden rounded-[22px] bg-sage ${className}`}>
+      <Image src={src} alt={alt} fill sizes={sizes} preload={preload} className={`object-cover ${imageClassName}`} />
+      {children}
+    </div>
+  );
+}
+
+function ScanFrame() {
+  const corner = "absolute size-6 border-white";
+  return (
+    <div aria-hidden className="absolute inset-4">
+      <span className={`${corner} top-0 left-0 rounded-tl-lg border-t-2 border-l-2`} />
+      <span className={`${corner} top-0 right-0 rounded-tr-lg border-t-2 border-r-2`} />
+      <span className={`${corner} bottom-0 left-0 rounded-bl-lg border-b-2 border-l-2`} />
+      <span className={`${corner} right-0 bottom-0 rounded-br-lg border-r-2 border-b-2`} />
+      <span className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full bg-ink/80 px-3 py-1.5 text-xs whitespace-nowrap text-white backdrop-blur-sm">
+        <span className="size-1.5 rounded-full bg-lime motion-safe:animate-pulse" />
+        Checking leaf
+      </span>
+    </div>
+  );
+}
+
+function HeroCollage() {
+  return (
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-12 sm:grid-rows-[176px_236px_220px]">
+      <Tile
+        src="/images/rooftop-garden.jpg"
+        alt="Raised beds of leafy vegetables and herbs on a rooftop garden at sunset"
+        sizes="(min-width: 1024px) 30vw, (min-width: 640px) 66vw, 100vw"
+        preload
+        className="col-span-2 h-64 sm:col-span-8 sm:col-start-5 sm:row-span-2 sm:row-start-1 sm:h-auto"
+        imageClassName="object-[50%_60%]"
+      />
+      <Tile
+        src="/images/robot-seedlings.jpg"
+        alt="A robotic arm tending rows of seedlings"
+        sizes="(min-width: 1024px) 15vw, (min-width: 640px) 33vw, 50vw"
+        className="h-40 sm:col-span-4 sm:col-start-1 sm:row-start-1 sm:h-auto"
+        imageClassName="object-[30%_40%]"
+      />
+      <div className="flex flex-col justify-between rounded-[22px] border border-ink/10 bg-white p-4 sm:col-span-4 sm:col-start-1 sm:row-start-2 sm:p-5">
+        <p className="text-xs text-muted">Example result</p>
+        <div className="mt-3">
+          <p className="text-[17px] leading-tight font-medium tracking-tight">Likely maize streak virus</p>
+          <p className="mt-1.5 text-[13px] leading-snug text-muted">Could also be nutrient deficiency</p>
+        </div>
+        <p className="mt-3 inline-flex w-fit rounded-full bg-lime px-2.5 py-1 text-xs font-medium">Medium confidence</p>
+      </div>
+      <Tile
+        src="/images/vertical-farm.jpg"
+        alt="Shelves of leafy greens growing under lights in an indoor farm"
+        sizes="(min-width: 1024px) 20vw, (min-width: 640px) 42vw, 50vw"
+        className="h-40 sm:col-span-5 sm:col-start-1 sm:row-start-3 sm:h-auto"
+      />
+      <Tile
+        src="/images/field-rows.jpg"
+        alt="Young crop plants in rows of dark soil"
+        sizes="(min-width: 1024px) 26vw, (min-width: 640px) 58vw, 50vw"
+        className="h-40 sm:col-span-7 sm:col-start-6 sm:row-start-3 sm:h-auto"
+        imageClassName="origin-[45%_80%] scale-[1.7]"
+      >
+        <ScanFrame />
+      </Tile>
+    </div>
+  );
+}
+
 function Hero() {
   return (
-    <div className="p-2 sm:p-3">
-      <section className="relative isolate flex min-h-[calc(100svh-16px)] flex-col overflow-hidden rounded-[20px] p-3 text-white sm:min-h-[720px] sm:rounded-[28px] sm:p-5 lg:h-[calc(100svh-24px)] lg:max-h-[880px]">
-        <Image
-          src="/images/field-rows.jpg"
-          alt="Young crop plants growing in rows of dark soil, lit by low sun"
-          fill
-          preload
-          sizes="100vw"
-          className="-z-20 object-cover object-[32%_100%] sm:object-[50%_100%]"
-        />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ink/85 via-ink/40 to-ink/80" />
-
-        <nav aria-label="Main" className="flex items-center justify-between rounded-full bg-bone py-2 pr-2 pl-3 text-ink">
+    <header id="top" className="hero-grid">
+      <div className="mx-auto w-full max-w-[1320px] px-3 pt-3 sm:px-6 sm:pt-5">
+        <nav aria-label="Main" className="flex items-center justify-between rounded-full border border-ink/10 bg-white/85 py-2 pr-2 pl-3 backdrop-blur-md">
           <a href="#top" aria-label="Crop Doctor home">
             <Logo />
           </a>
@@ -174,42 +252,43 @@ function Hero() {
           </Link>
         </nav>
 
-        <div id="top" className="flex flex-1 flex-col justify-between gap-10 px-2 pt-12 pb-3 sm:px-6 sm:pt-16 sm:pb-5 lg:px-8">
-          <div className="max-w-3xl">
-            <p className="inline-flex rounded-full border border-white/30 bg-white/10 px-3.5 py-1.5 text-sm backdrop-blur-sm">
-              A first opinion for sick crops
+        <div className="grid items-center gap-12 px-2 pt-12 pb-10 sm:px-4 sm:pt-16 lg:grid-cols-[1fr_1.12fr] lg:gap-14 lg:pt-20 lg:pb-14">
+          <div>
+            <p className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-3.5 py-1.5 text-sm">
+              <span className="size-2 rounded-full bg-[#9bb52a]" />
+              Early preview, open to try
             </p>
-            <h1 className="mt-5 text-balance text-[44px] leading-[1.02] font-medium tracking-[-0.045em] sm:text-[68px] lg:text-[80px]">
-              Photograph a sick plant. Hear what to do.
+            <h1 className="mt-6 text-balance text-[44px] leading-[1.02] font-medium tracking-[-0.045em] sm:text-[64px] xl:text-[76px]">
+              Snap a sick plant. Know what to do{" "}
+              <span className="rounded-[0.18em] bg-lime px-[0.1em] whitespace-nowrap">today.</span>
             </h1>
-          </div>
-
-          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <div className="w-full max-w-[290px] rounded-2xl border border-white/20 bg-ink/55 p-4 backdrop-blur-md">
-              <p className="text-xs text-white/75">Example result</p>
-              <p className="mt-1.5 text-[17px] font-medium tracking-tight">Likely maize streak virus</p>
-              <p className="mt-1 text-sm text-white/80">Could also be nutrient deficiency</p>
-              <p className="mt-3 inline-flex rounded-full bg-lime px-2.5 py-1 text-xs font-medium text-ink">Medium confidence</p>
+            <p className="mt-6 max-w-lg text-[18px] leading-snug text-muted">
+              Crop Doctor looks at a photo or short video of any crop, names the likely problem, and gives low-cost steps a farmer can take right away.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <PrimaryLink href={APP_HREF}>Open the app</PrimaryLink>
+              <Link
+                href="#how-it-works"
+                className="inline-flex min-h-12 items-center rounded-full border border-ink/20 bg-white/60 px-6 text-[15px] font-medium transition-colors hover:bg-white"
+              >
+                See how it works
+              </Link>
             </div>
-
-            <div className="max-w-md">
-              <p className="text-[17px] leading-snug text-white/95">
-                Crop Doctor gives smallholder farmers a likely diagnosis and low-cost treatment options, in their own language, by voice or text.
-              </p>
-              <div className="mt-5 flex flex-wrap gap-3">
-                <PrimaryLink href={APP_HREF}>Open the app</PrimaryLink>
-                <a
-                  href="#partners"
-                  className="inline-flex min-h-12 items-center rounded-full border border-white/40 px-6 text-[15px] font-medium transition-colors hover:bg-white/10"
-                >
-                  For partners
-                </a>
-              </div>
-            </div>
+            <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-[15px] text-muted">
+              {HERO_POINTS.map((point) => (
+                <li key={point} className="flex items-center gap-2">
+                  <svg viewBox="0 0 16 16" aria-hidden className="size-4 text-moss">
+                    <path d="m3.5 8.5 3 3 6-7" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  {point}
+                </li>
+              ))}
+            </ul>
           </div>
+          <HeroCollage />
         </div>
-      </section>
-    </div>
+      </div>
+    </header>
   );
 }
 
