@@ -344,7 +344,7 @@ function HowItWorks() {
     <section id="how-it-works" className="bg-white/60 py-20 sm:py-28">
       <div className="mx-auto w-full max-w-[1240px] px-5 sm:px-8">
         <SectionHeading label="How it works" center>
-          Big icons, little reading, a first opinion in about 30 seconds
+          Big icons, little reading, a first opinion in about 30 second.
         </SectionHeading>
         <ol className="mt-12 grid gap-4 md:grid-cols-3">
           <StepCard step="01" title="Choose your language and crop" body="Tap a picture to start. The app remembers your language for next time.">
