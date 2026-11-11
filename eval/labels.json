@@ -1,0 +1,13 @@
+{
+  "crops": {
+    "maize": ["maize", "corn", "zea mays"],
+    "pepper": ["pepper", "capsicum", "chili", "chilli"]
+  },
+  "conditions": {
+    "maize/gray-leaf-spot": ["gray leaf spot", "grey leaf spot", "cercospora"],
+    "maize/leaf-blight": ["leaf blight", "turcicum", "exserohilum", "helminthosporium", "bipolaris"],
+    "maize/rust": ["rust", "puccinia"],
+    "pepper/healthy": ["healthy", "no visible", "no disease", "no problem"],
+    "pepper/leaf-spot": ["leaf spot", "bacterial spot", "xanthomonas", "cercospora"]
+  }
+}

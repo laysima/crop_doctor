@@ -1,8 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { ReactNode } from "react";
+import { Logo } from "./components/logo";
 
-// Point this at the camera screen (for example "/scan") once the app exists.
-const APP_HREF = "#get-the-app";
+// The scanning tool. Visitors who are not signed in are sent to /sign-in first.
+const APP_HREF = "/lab";
 // Placeholder: replace with the real partnerships inbox.
 const PARTNER_EMAIL = "partners@example.com";
 
@@ -10,6 +12,7 @@ const NAV = [
   { href: "#how-it-works", label: "How it works" },
   { href: "#why-trust-it", label: "Why trust it" },
   { href: "#partners", label: "For partners" },
+  { href: APP_HREF, label: "Try it" },
 ];
 
 const TARGETS = [
@@ -22,7 +25,7 @@ const TARGETS = [
 const FEATURES = [
   {
     title: "Cheap, safe steps first",
-    body: "Remove infected leaves, adjust watering, rotate crops. Products come after, and only ones registered in your region.",
+    body: "Remove infected leaves, adjust watering, rotate crops. For anything chemical, it sends you to your extension officer.",
   },
   {
     title: "Voice at every step",
@@ -51,28 +54,28 @@ const TRUST = [
     image: "/images/vertical-farm.jpg",
     position: "object-center",
     height: "lg:h-[540px]",
-    title: "Vetted sources write the advice",
-    body: "Treatment text, products and dosages come from a reviewed knowledge base, never from free AI generation.",
-    tags: ["Reviewed", "Region registered"],
+    title: "Safety rules limit the advice",
+    body: "The app suggests practical, low-cost steps only. It never names chemicals or doses, and sends those questions to your extension officer.",
+    tags: ["Low-cost steps", "No chemicals"],
   },
   {
     image: "/images/rooftop-garden.jpg",
     position: "object-[60%_100%]",
     height: "lg:h-[620px]",
     title: "People handle the hard cases",
-    body: "Unclear or fast-spreading problems go to a human. Every chemical comes with protective-equipment and pre-harvest warnings.",
-    tags: ["Officer contact", "Safety warnings"],
+    body: "When the app is unsure, or a problem could spread fast, it says so plainly and points you to your extension officer.",
+    tags: ["Officer contact", "Honest about doubt"],
   },
 ];
 
 const FAQS = [
   {
     q: "How accurate is it?",
-    a: "It gives a first opinion, not a laboratory diagnosis. We test on agronomist-labelled photos from real fields, and the pilot target is the right cause in the top three at least 80% of the time. Some viruses and soil problems cannot be told apart from one photo, and the app says so.",
+    a: "It gives a first opinion, not a laboratory diagnosis. We test on labelled photos from real fields, and the pilot target is the right cause in the top three at least 80% of the time. Some viruses and soil problems cannot be told apart from one photo, and the app says so.",
   },
   {
     q: "How is chemical advice kept safe?",
-    a: "Products come only from a reviewed knowledge base. Anything banned or unregistered in the region is removed, every chemical carries protective-equipment and pre-harvest-interval warnings, and low-confidence results never recommend chemicals.",
+    a: "For now the app does not recommend chemicals at all. It gives low-cost, non-chemical steps and sends chemical questions to an extension officer, and that stays in place until testing shows its confident answers are reliable enough.",
   },
   {
     q: "What happens to farmers' photos and data?",
@@ -114,29 +117,15 @@ function Arrow({ className = "size-4" }: { className?: string }) {
   );
 }
 
-function Logo({ className = "" }: { className?: string }) {
-  return (
-    <span className={`flex items-center gap-2 text-[17px] font-semibold tracking-tight ${className}`}>
-      <span className="grid size-8 place-items-center rounded-full bg-ink text-lime">
-        <svg viewBox="0 0 20 20" fill="none" aria-hidden className="size-[18px]">
-          <path d="M4 16c0-7 4-12 12.5-12.5C16.5 12 11 16 4 16Z" fill="currentColor" />
-          <path d="M10.2 7.4v5M7.7 9.9h5" stroke="#12291f" strokeWidth="1.5" strokeLinecap="round" />
-        </svg>
-      </span>
-      Crop Doctor
-    </span>
-  );
-}
-
 function PrimaryLink({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <a
+    <Link
       href={href}
       className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-lime px-6 text-[15px] font-medium text-ink transition-colors hover:bg-[#d8e64a]"
     >
       {children}
       <Arrow />
-    </a>
+    </Link>
   );
 }
 
@@ -171,18 +160,18 @@ function Hero() {
           </a>
           <div className="hidden items-center gap-8 text-sm md:flex">
             {NAV.map((item) => (
-              <a key={item.href} href={item.href} className="transition-opacity hover:opacity-60">
+              <Link key={item.href} href={item.href} className="transition-opacity hover:opacity-60">
                 {item.label}
-              </a>
+              </Link>
             ))}
           </div>
-          <a
+          <Link
             href={APP_HREF}
             className="inline-flex min-h-11 items-center gap-2 rounded-full bg-lime px-5 text-sm font-medium transition-colors hover:bg-[#d8e64a]"
           >
             Open app
             <Arrow />
-          </a>
+          </Link>
         </nav>
 
         <div id="top" className="flex flex-1 flex-col justify-between gap-10 px-2 pt-12 pb-3 sm:px-6 sm:pt-16 sm:pb-5 lg:px-8">
@@ -316,6 +305,38 @@ function HowItWorks() {
   );
 }
 
+const TRY_STEPS = ["Sign in with Google", "Upload a photo or short video", "See the likely problem and what to do"];
+
+function TryIt() {
+  return (
+    <section id="try-it" className="px-3 pt-20 sm:px-8 sm:pt-28">
+      <div className="mx-auto grid w-full max-w-[1240px] items-center gap-10 rounded-3xl bg-ink p-7 text-white sm:p-12 md:grid-cols-[1.3fr_1fr] md:gap-16">
+        <div>
+          <p className="text-[15px] text-white/75">See how it works</p>
+          <h2 className="mt-3 text-balance text-[32px] leading-[1.08] font-medium tracking-[-0.035em] sm:text-[44px]">
+            Try it on your own plant
+          </h2>
+          <p className="mt-4 max-w-md text-[17px] leading-snug text-white/85">
+            Any crop, any leaf. You get a first opinion in seconds, with low-cost steps you can take today.
+          </p>
+          <div className="mt-7 flex flex-wrap items-center gap-4">
+            <PrimaryLink href={APP_HREF}>Try the app</PrimaryLink>
+            <span className="text-sm text-white/70">Early preview. Results are AI suggestions.</span>
+          </div>
+        </div>
+        <ol className="space-y-3">
+          {TRY_STEPS.map((step, index) => (
+            <li key={step} className="flex items-center gap-4 rounded-2xl bg-moss px-5 py-4 text-[15px]">
+              <span className="grid size-8 shrink-0 place-items-center rounded-full bg-lime text-sm font-medium text-ink">{index + 1}</span>
+              {step}
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
 function Phone() {
   return (
     <div className="w-[290px] rounded-[40px] bg-ink p-2.5 shadow-2xl shadow-ink/30">
@@ -368,7 +389,7 @@ function Trust() {
   return (
     <section id="why-trust-it" className="bg-sage py-20 sm:py-28">
       <div className="mx-auto w-full max-w-[1240px] px-5 sm:px-8">
-        <SectionHeading label="Why trust it">The AI reads the photo. Vetted sources write the advice.</SectionHeading>
+        <SectionHeading label="Why trust it">The AI reads the photo. Safety rules decide what you see.</SectionHeading>
         <div className="mt-12 grid items-end gap-4 lg:grid-cols-3">
           {TRUST.map((card) => (
             <article key={card.title} className={`relative isolate flex h-[440px] flex-col justify-between overflow-hidden rounded-3xl p-6 text-white ${card.height}`}>
@@ -459,9 +480,9 @@ function GetTheApp() {
           </div>
           <nav aria-label="Footer" className="flex flex-col gap-3 text-[15px] sm:flex-row sm:gap-8">
             {NAV.map((item) => (
-              <a key={item.href} href={item.href} className="py-1 transition-opacity hover:opacity-60">
+              <Link key={item.href} href={item.href} className="py-1 transition-opacity hover:opacity-60">
                 {item.label}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>
@@ -477,6 +498,7 @@ export default function Home() {
       <Hero />
       <Problem />
       <HowItWorks />
+      <TryIt />
       <Product />
       <Trust />
       <Partners />
